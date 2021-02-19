@@ -16,44 +16,47 @@
         </Grid.ColumnDefinitions>
 
         <Grid Grid.Column="0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="30"></RowDefinition>
-                <RowDefinition></RowDefinition>
-                <RowDefinition Height="30"></RowDefinition>
-            </Grid.RowDefinitions>
-            <DataGrid Grid.Column="0" Grid.Row="1" 
-                      AutoGenerateColumns="True" 
-                      HeadersVisibility="None"
-                      GridLinesVisibility="All"
-                      AlternationCount="2147483647"
-                      CanUserAddRows="False"
-                      ItemsSource="{Binding VariablesTable}"
-                      RenderOptions.EdgeMode="Aliased" UseLayoutRounding="True"
-                      CurrentCell="{Binding SelectedDataGridCell}">
-            </DataGrid>
-            <Grid Grid.Row="2">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" >Import from File</Button>
-                <Button Grid.Column="1" >Export to File</Button>
-                <Button Grid.Column="2" >Add from tempaltes</Button>
-            </Grid>
-            <Grid Grid.Row="0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" Command="{Binding AddVariable}">Add variable</Button>
-                <Button Grid.Column="1" Command="{Binding AddRow}">Add row</Button>
-                <Button Grid.Column="2" Command="{Binding DeleteVariable}">Delete variable</Button>
-                <Button Grid.Column="3" Command="{Binding DeleteRow}">Delete row</Button>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition Height="30"></RowDefinition>
+                    <RowDefinition Height="30"></RowDefinition>
+                </Grid.RowDefinitions>
+                <ItemsControl Grid.Row="0" HorizontalContentAlignment="Stretch" ItemsSource="{Binding VariablesList}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" FontSize="18" Text="{Binding Name}" />
+                                <TextBox Grid.Column="1" FontSize="18" Text="{Binding Value}" />
+                            </Grid>
+
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition Width="auto"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBox Text="{Binding OutPath}" Grid.Column="0" VerticalAlignment="Center"/>
+                    <Button Command="{Binding ChooseOutPath}" Grid.Column="1" Width="60">Select</Button>
+                </Grid>
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition Width="38.167"></ColumnDefinition>
+                        <ColumnDefinition Width="21.833"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox Text="{Binding NamePattern}" Grid.Column="0" VerticalAlignment="Center" Margin="0,6"/>
+                    <Button Command="{Binding GenerateDocuments}" Grid.Column="1" Width="60" Grid.ColumnSpan="2">Generate</Button>
+                </Grid>
             </Grid>
         </Grid>
+
         <Grid Grid.Column="2">
             <Grid.RowDefinitions>
                 <RowDefinition></RowDefinition>
@@ -64,34 +67,28 @@
                      SelectedItem="{Binding SelectedTemplate}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock FontSize="18" Text="{Binding ShortFileName}" />
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox VerticalAlignment="Center" IsChecked="{Binding IsActive}" />
+                            <TextBlock FontSize="18" Text="{Binding ShortFileName}" />
+                        </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-            <StackPanel Grid.Row="1" 
-                        Visibility="{Binding SelectedTemplateExist}">
-                <TextBlock Text="Template"/>
-                <TextBlock Text="{Binding SelectedTemplate.FileName}"/>
-                <TextBlock Text="Naming pattern"/>
-                <TextBox Text="{Binding SelectedTemplate.NamingPattern}"></TextBox>
-                <CheckBox IsChecked="{Binding SelectedTemplate.SkipMissingData}">Skil missing data</CheckBox>
-                <TextBlock Text="Detected variables"/>
-                <TextBox IsReadOnly="True" Text="{Binding SelectedTemplate.DetectedVariables, Mode=OneWay}"/>
-            </StackPanel>
             <Grid Grid.Row="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" Command="{Binding AddTemplateFromFile}">Add Template</Button>
-                <Button Grid.Column="1" Command="{Binding RemoveSelectedTemplate}">Remove Template</Button>
-                <Button Grid.Column="2" Command="{Binding GenerateDocuments}">GenerateDocuments</Button>
+                <Button Grid.Column="0" Command="{Binding AddTemplate}">Add Template</Button>
+                <Button Grid.Column="1" Command="{Binding RemoveTemplate}">Remove Template</Button>
+                <Button Grid.Column="2" Command="{Binding OpenTemplatesFolder}">Open Folder</Button>
             </Grid>
         </Grid>
         <GridSplitter Grid.Column="1" 
                       Width="3" 
                       HorizontalAlignment="Center" 
-                      VerticalAlignment="Stretch" ></GridSplitter>
+                      VerticalAlignment="Stretch" />
+
     </Grid>
 </Window>

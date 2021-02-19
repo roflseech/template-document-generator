@@ -1,34 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Xceed.Words.NET;
 
 namespace TemplateDocumentGenerator.Models
 {
-    class DocumentGenerator : IDisposable
+    static class DocumentGenerator
     {
-        private DocX documentTemplate;
-
-        public DocumentGenerator(string fileName)
+        public static void Generate(string templateFullName, string outFolder, string namePattern, List<Variable> variables)
         {
-            documentTemplate = Xceed.Words.NET.DocX.Load(fileName);
-        }
-
-        public void GenerateDocument(List<(string, string)> replacements, string outFileName)
-        {
-            var clonedDocument = documentTemplate.Copy();
-            foreach(var r in replacements)
+            using(var dl = new DocumentLoader(templateFullName))
             {
-                clonedDocument.ReplaceText(r.Item1, r.Item2);
+                string fileName = Path.GetFileName(templateFullName);
+                string extension = Path.GetExtension(templateFullName);
+                string outFileName = ParseTemplateName(namePattern, fileName, extension, variables);
+                dl.GenerateDocument(variables, outFolder + outFileName);
             }
-            clonedDocument.SaveAs(outFileName);
         }
-        public void Dispose()
+        private static string ParseTemplateName(string namePattern, string fileName, string extension, List<Variable> variables)
         {
-            documentTemplate.Dispose();
+            string result = namePattern;
+            foreach (var r in variables)
+            {
+                result = result.Replace(r.Name, r.Value);
+            }
+            result = result.Replace("<tempname>", fileName);
+            result = result + "." + extension;
+            return result;
         }
-
     }
 }

@@ -70,8 +70,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Models\DocumentGenerator.cs" />
-    <Compile Include="Models\TemplateModel.cs" />
-    <Compile Include="Models\VariablesDataModel.cs" />
+    <Compile Include="Models\DocumentLoader.cs" />
+    <Compile Include="Models\DocumentTemplate.cs" />
+    <Compile Include="Models\TemplatesListUpdater.cs" />
+    <Compile Include="Models\Variable.cs" />
     <Compile Include="Test.xaml.cs">
       <DependentUpon>Test.xaml</DependentUpon>
     </Compile>
