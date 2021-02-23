@@ -12,7 +12,15 @@ namespace TemplateDocumentGenerator.Models
     {
         private string name;
         private string value;
+        public Variable()
+        {
 
+        }
+        public Variable(string name, string value)
+        {
+            this.name = name;
+            this.value = value;
+        }
         public string Name
         {
             get { return name; }

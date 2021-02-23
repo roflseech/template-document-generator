@@ -1,0 +1,15 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:TemplateDocumentGenerator.Properties"
+                    xmlns:v="clr-namespace:System;assembly=mscorlib">
+    <v:String x:Key="add_template">Добавить шаблон</v:String>
+    <v:String x:Key="remove_template">Удалить шаблон</v:String>
+    <v:String x:Key="open_folder">Открыть папку</v:String>
+    <v:String x:Key="generate_documents">Сгенерировать</v:String>
+    <v:String x:Key="choose_out_path">Выбрать путь</v:String>
+    <v:String x:Key="wrong_output_directory">Выходного пути не существует</v:String>
+    <v:String x:Key="wrong_naming_pattern">Неверный шаблон имен</v:String>
+    <v:String x:Key="no_templates_selected">Не выбрано ни одного шаблона</v:String>
+    <v:String x:Key="many_templates_with_no_tempname">Необходим тег tempname в шаблоне имени</v:String>
+    <v:String x:Key="naming_pattern_empty">Шаблон имени пуст</v:String>
+</ResourceDictionary>

@@ -1,10 +1,12 @@
 ﻿<Window x:Class="TemplateDocumentGenerator.MainWindow"
+        x:Name="mainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:viewmodels="clr-namespace:TemplateDocumentGenerator.ViewModels"
+        xmlns:res = "clr-namespace:TemplateDocumentGenerator.Properties"
         mc:Ignorable="d"
-        Title="Template Document Generator" Height="670" Width="993">
+        Title="Template Document Generator" Height="670" Width="993" FontFamily="Calibri Light" FontSize="14">
     <Window.DataContext>
         <viewmodels:MainViewModel />
     </Window.DataContext>
@@ -19,6 +21,7 @@
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition></RowDefinition>
+                    <RowDefinition Height="30"></RowDefinition>
                     <RowDefinition Height="30"></RowDefinition>
                     <RowDefinition Height="30"></RowDefinition>
                 </Grid.RowDefinitions>
@@ -43,16 +46,44 @@
                         <ColumnDefinition Width="auto"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <TextBox Text="{Binding OutPath}" Grid.Column="0" VerticalAlignment="Center"/>
-                    <Button Command="{Binding ChooseOutPath}" Grid.Column="1" Width="60">Select</Button>
+                    <Button Command="{Binding ChooseOutPath}" 
+                            Grid.Column="1" 
+                            Width="100" 
+                            Content="{DynamicResource choose_out_path}" 
+                            Margin="3" />
                 </Grid>
                 <Grid Grid.Row="2">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition Width="38.167"></ColumnDefinition>
-                        <ColumnDefinition Width="21.833"/>
+                        <ColumnDefinition Width="auto"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <TextBox Text="{Binding NamePattern}" Grid.Column="0" VerticalAlignment="Center" Margin="0,6"/>
-                    <Button Command="{Binding GenerateDocuments}" Grid.Column="1" Width="60" Grid.ColumnSpan="2">Generate</Button>
+                    <TextBox Text="{Binding NamePattern}" Grid.Column="0" VerticalAlignment="Center" />
+                    <Button Command="{Binding GenerateDocuments}" 
+                            Grid.Column="1" 
+                            Width="100" 
+                            Grid.ColumnSpan="2" 
+                            Content="{DynamicResource generate_documents}" Margin="3"/>
+                </Grid>
+                <Grid Grid.Row="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition Width="auto"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{Binding StatusText}" Grid.Column="0" VerticalAlignment="Center" Margin="8,0,0,0"/>
+                    <ComboBox Grid.Column="1" 
+                              Width="100" 
+                              ItemsSource="{Binding Languages}"
+                              SelectedItem="{Binding SelectedLanguage}"
+                              VerticalContentAlignment="Center" 
+                              Margin="3" 
+                              HorizontalContentAlignment="Center" >
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock TextAlignment="Center" Text="{Binding Name}"/>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                        
+                    </ComboBox>
                 </Grid>
             </Grid>
         </Grid>
@@ -80,15 +111,23 @@
                     <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" Command="{Binding AddTemplate}">Add Template</Button>
-                <Button Grid.Column="1" Command="{Binding RemoveTemplate}">Remove Template</Button>
-                <Button Grid.Column="2" Command="{Binding OpenTemplatesFolder}">Open Folder</Button>
+                <Button Grid.Column="0" 
+                        Command="{Binding AddTemplate}" 
+                        Content="{DynamicResource add_template}" 
+                        Margin="3" />
+                <Button Grid.Column="1" 
+                        Command="{Binding RemoveTemplate}" 
+                        Content="{DynamicResource remove_template}" 
+                        Margin="3"/>
+                <Button Grid.Column="2" 
+                        Command="{Binding OpenTemplatesFolder}" 
+                        Content="{DynamicResource open_folder}" 
+                        Margin="3"/>
             </Grid>
         </Grid>
         <GridSplitter Grid.Column="1" 
                       Width="3" 
                       HorizontalAlignment="Center" 
                       VerticalAlignment="Stretch" />
-
     </Grid>
 </Window>

@@ -27,7 +27,9 @@ namespace TemplateDocumentGenerator.Models
             var clonedDocument = documentTemplate.Copy();
             foreach(var r in variables)
             {
-                clonedDocument.ReplaceText(r.Name, r.Value);
+                var newValue = r.Value;
+                if (newValue == null) newValue = "";
+                clonedDocument.ReplaceText(r.Name, newValue);
             }
             clonedDocument.SaveAs(outFileName);
         }
@@ -39,11 +41,6 @@ namespace TemplateDocumentGenerator.Models
             {
                 throw new IncorrectTemplateError("No variables detected");
             }
-            /*for(int i = 0; i < detectedVariables.Count;i++)
-            {
-                string s = detectedVariables[i].ToLower();
-                detectedVariables[i] = s.Substring(1,1).ToUpper() + s.Substring(2, s.Length - 3);
-            }*/
             return detectedVariables;
         }
 

@@ -1,0 +1,15 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:TemplateDocumentGenerator.Properties"
+                    xmlns:v="clr-namespace:System;assembly=mscorlib">
+    <v:String x:Key="add_template">Add Template</v:String>
+    <v:String x:Key="remove_template">Remove Template</v:String>
+    <v:String x:Key="open_folder">Open Folder</v:String>
+    <v:String x:Key="generate_documents">Generate</v:String>
+    <v:String x:Key="choose_out_path">Select Out Path</v:String>
+    <v:String x:Key="wrong_output_directory">Wrong output directory</v:String>
+    <v:String x:Key="wrong_naming_pattern">Wrong naming pattern</v:String>
+    <v:String x:Key="no_templates_selected">No tempaltes selected</v:String>
+    <v:String x:Key="many_templates_with_no_tempname">No tempname tag in output naming pattern</v:String>
+    <v:String x:Key="naming_pattern_empty">Naming pattern is empty</v:String>
+</ResourceDictionary>
