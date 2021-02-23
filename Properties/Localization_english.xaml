@@ -12,4 +12,9 @@
     <v:String x:Key="no_templates_selected">No tempaltes selected</v:String>
     <v:String x:Key="many_templates_with_no_tempname">No tempname tag in output naming pattern</v:String>
     <v:String x:Key="naming_pattern_empty">Naming pattern is empty</v:String>
+    <v:String x:Key="generation_successful">Generation sucessful</v:String>
+    <v:String x:Key="generation_failed">Generation failed, some documents are open in another process</v:String>
+    <v:String x:Key="file_open_error">Can't access file {0} due to another program using it</v:String>
+    <v:String x:Key="no_variables_detected">No variables in {0} detected</v:String>
+    <v:String x:Key="wrong_file_format">Wrong file format in {0}</v:String>
 </ResourceDictionary>

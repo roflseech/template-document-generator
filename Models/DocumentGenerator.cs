@@ -15,6 +15,7 @@ namespace TemplateDocumentGenerator.Models
             {
                 string fileName = Path.GetFileName(templateFullName);
                 string extension = Path.GetExtension(templateFullName);
+                fileName = fileName.Replace(extension, "");
                 string outFileName = ParseTemplateName(namePattern, fileName, extension, variables);
                 dl.GenerateDocument(variables, outFolder + outFileName);
             }
@@ -27,7 +28,7 @@ namespace TemplateDocumentGenerator.Models
                 result = result.Replace(r.Name, r.Value);
             }
             result = result.Replace("<tempname>", fileName);
-            result = result + "." + extension;
+            result = result + extension;
             return result;
         }
     }

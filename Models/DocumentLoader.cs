@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -10,7 +11,7 @@ namespace TemplateDocumentGenerator.Models
 {
     class DocumentLoader : IDisposable
     {
-        class IncorrectTemplateError : Exception
+        public class IncorrectTemplateError : Exception
         {
             public IncorrectTemplateError(string message) : base(message) { }
         }

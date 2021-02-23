@@ -58,7 +58,8 @@ namespace TemplateDocumentGenerator.Models
                         FileName = s,
                         IsActive = false
                     };
-                    template.ReloadVaraibles();
+                    //check variables count at startup?
+                    //template.ReloadVaraibles();
 
                     templatesList.Add(template);
                 }

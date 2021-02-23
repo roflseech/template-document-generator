@@ -69,7 +69,7 @@
                         <ColumnDefinition></ColumnDefinition>
                         <ColumnDefinition Width="auto"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Text="{Binding StatusText}" Grid.Column="0" VerticalAlignment="Center" Margin="8,0,0,0"/>
+                    <TextBox IsReadOnly="True" Text="{Binding StatusText}" Grid.Column="0" VerticalAlignment="Center" Margin="8,0,0,0"/>
                     <ComboBox Grid.Column="1" 
                               Width="100" 
                               ItemsSource="{Binding Languages}"
@@ -107,6 +107,7 @@
             </ListBox>
             <Grid Grid.Row="2">
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>

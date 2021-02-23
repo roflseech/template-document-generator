@@ -12,4 +12,9 @@
     <v:String x:Key="no_templates_selected">Не выбрано ни одного шаблона</v:String>
     <v:String x:Key="many_templates_with_no_tempname">Необходим тег tempname в шаблоне имени</v:String>
     <v:String x:Key="naming_pattern_empty">Шаблон имени пуст</v:String>
+    <v:String x:Key="generation_successful">Генерация успешна</v:String>
+    <v:String x:Key="generation_failed">Не удалось создать часть документ</v:String>
+    <v:String x:Key="file_open_error">Невозможно отркыть файл {0} из-за того что он используется другой программой</v:String>
+    <v:String x:Key="no_variables_detected">Переменные в {0} не обнаружены</v:String>
+    <v:String x:Key="wrong_file_format">Неверный формат файла {0}</v:String>
 </ResourceDictionary>

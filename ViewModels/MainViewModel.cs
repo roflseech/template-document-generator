@@ -30,7 +30,7 @@ namespace TemplateDocumentGenerator.ViewModels
                 OnPropertyChanged("StatusText");
             }
         }
-        Dictionary<string, ResourceDictionary> localizations;
+        private Dictionary<string, ResourceDictionary> localizations;
 
         public ObservableCollection<Models.Variable> Languages { get; set; }
         private Models.Variable selectedLanguage;
@@ -46,6 +46,8 @@ namespace TemplateDocumentGenerator.ViewModels
                     previousLanguage = selectedLanguage.Value;
                 }
                 selectedLanguage = value;
+                Settings.Default.Language = selectedLanguage.Value;
+                Settings.Default.Save();
                 OnPropertyChanged("SelectedLanguage");
             }
         }
@@ -81,6 +83,8 @@ namespace TemplateDocumentGenerator.ViewModels
             set
             {
                 outPath = value;
+                Settings.Default.OutPath = outPath;
+                Settings.Default.Save();
                 OnPropertyChanged("OutPath");
             }
         }
@@ -105,16 +109,33 @@ namespace TemplateDocumentGenerator.ViewModels
             TemplatesList.CollectionChanged += AddChangeNotifications;
             templatesListUpdater.ScanFolder();
             NamePattern = "<tempname>";
-            OutPath = Directory.GetCurrentDirectory();
+            
 
             Languages = new ObservableCollection<Models.Variable>();
             localizations = new Dictionary<string, ResourceDictionary>();
             AddLanguage("en", "English", "Properties/Localization_english.xaml");
             AddLanguage("ru", "Русский", "Properties/Localization_russian.xaml");
-            Application.Current.Resources.MergedDictionaries.Add(localizations["en"]);
-            SelectedLanguage = Languages[0];
+            Application.Current.Resources.MergedDictionaries.Add(
+                localizations[Settings.Default.Language]);
+            foreach(var a in Languages)
+            {
+                if(a.Value == Settings.Default.Language)
+                {
+                    SelectedLanguage = a;
+                    break;
+                }
+            }
 
             PropertyChanged += LanguageChanging;
+
+            if(Settings.Default.OutPath == "")
+            {
+                OutPath = Directory.GetCurrentDirectory();
+            }
+            else
+            {
+                OutPath = Settings.Default.OutPath;
+            }
         }
         private void AddLanguage(string tag, string name, string uri)
         {
@@ -131,6 +152,7 @@ namespace TemplateDocumentGenerator.ViewModels
                     Application.Current.Resources.MergedDictionaries.Remove(localizations[previousLanguage]);
                 }
                 Application.Current.Resources.MergedDictionaries.Add(localizations[selectedLanguage.Value]);
+                StatusText = "";
             }
         }
         private void AddChangeNotifications(object sender, NotifyCollectionChangedEventArgs e)
@@ -153,25 +175,56 @@ namespace TemplateDocumentGenerator.ViewModels
             var changedTempalte = (Models.DocumentTemplate)sender;
             if(changedTempalte.IsActive)
             {
-                changedTempalte.ReloadVaraibles();
-                var changedTemplateVariables = changedTempalte.Variables;
-                foreach(var variable in changedTemplateVariables)
+                try
                 {
-                    bool needsInclusion = true;
-                    foreach(var item in VariablesList)
+                    changedTempalte.ReloadVaraibles();
+                    var changedTemplateVariables = changedTempalte.Variables;
+                    foreach (var variable in changedTemplateVariables)
                     {
-                        if(item.Name == variable)
+                        bool needsInclusion = true;
+                        foreach (var item in VariablesList)
                         {
-                            needsInclusion = false;
-                            break;
+                            if (item.Name == variable)
+                            {
+                                needsInclusion = false;
+                                break;
+                            }
                         }
+                        if (needsInclusion) VariablesList.Add(
+                             new Models.Variable
+                             {
+                                 Name = variable
+                             });
+
                     }
-                    if (needsInclusion) VariablesList.Add(
-                         new Models.Variable
-                         {
-                             Name = variable
-                         });
+                    StatusText = "";
                 }
+                catch(System.IO.IOException exception)
+                {
+                    changedTempalte.IsActive = false;
+                    var currentLocResources = localizations[selectedLanguage.Value];
+                    StatusText = String.Format(
+                        (string)currentLocResources["file_open_error"],
+                        changedTempalte.ShortFileName);
+                }
+                catch (System.IO.FileFormatException exception)
+                {
+                    changedTempalte.IsActive = false;
+                    var currentLocResources = localizations[selectedLanguage.Value];
+                    StatusText = String.Format(
+                        (string)currentLocResources["wrong_file_format"],
+                        changedTempalte.ShortFileName);
+                }
+                catch (Models.DocumentLoader.IncorrectTemplateError exception)
+                {
+                    changedTempalte.IsActive = false;
+                    var currentLocResources = localizations[selectedLanguage.Value];
+                    StatusText = String.Format(
+                        (string)currentLocResources["no_variables_detected"],
+                        changedTempalte.ShortFileName);
+                }
+
+                
             }
             else
             {
@@ -210,6 +263,7 @@ namespace TemplateDocumentGenerator.ViewModels
                     {
                         OutPath = dialog.FileName;
                     }
+                    StatusText = "";
                 });
             }
         }
@@ -284,7 +338,23 @@ namespace TemplateDocumentGenerator.ViewModels
             }
             return true;
         }
-
+        private string GenerationStatusReport(int errorsCount)
+        {
+            var currentLocResources = localizations[selectedLanguage.Value];
+            int activeTemplatesCount = ActiveTemplatesCount();
+            string result = "";
+            if (errorsCount == 0)
+            {
+                result = (string)currentLocResources["generation_successful"] + 
+                    String.Format($" ({activeTemplatesCount}/{activeTemplatesCount})");
+            }
+            else
+            {
+                result = (string)currentLocResources["generation_failed"] +
+                    String.Format($" ({activeTemplatesCount-errorsCount}/{activeTemplatesCount})");
+            }
+            return result;
+        }
         public ICommand GenerateDocuments
         {
             get
@@ -295,12 +365,11 @@ namespace TemplateDocumentGenerator.ViewModels
                     {
                         return;
                     }
-                    var currentLocResources = localizations[selectedLanguage.Value];
-                    StatusText = (string)currentLocResources["generation_started"];
 
                     var outPathFixed = OutPath;
                     if(outPathFixed[outPathFixed.Length-1] != '\\') outPathFixed = outPathFixed + "\\";
-
+                    
+                    int errorsCount = 0;
                     foreach (var template in TemplatesList)
                     {
                         if(template.IsActive)
@@ -314,10 +383,12 @@ namespace TemplateDocumentGenerator.ViewModels
                             }
                             catch(Exception e)
                             {
-                                StatusText = e.Message;
+                                //Add error log?
+                                errorsCount++;
                             }
                         }
                     }
+                    StatusText = GenerationStatusReport(errorsCount);
                 });
             }
         }
@@ -333,6 +404,7 @@ namespace TemplateDocumentGenerator.ViewModels
                     {
                         File.Copy(openFileDialog.FileName, "Templates\\" + Path.GetFileName(openFileDialog.FileName));
                     }
+                    StatusText = "";
                 });
             }
         }
@@ -346,6 +418,7 @@ namespace TemplateDocumentGenerator.ViewModels
                     {
                         File.Delete(selectedTemplate.FileName);
                     }
+                    StatusText = "";
                 });
             }
         }
@@ -356,6 +429,7 @@ namespace TemplateDocumentGenerator.ViewModels
                 return new DelegateCommand((obj) =>
                 {
                     Process.Start(@"Templates");
+                    StatusText = "";
                 });
             }
         }
