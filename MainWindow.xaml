@@ -79,7 +79,7 @@
                               HorizontalContentAlignment="Center" >
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock TextAlignment="Center" Text="{Binding Name}"/>
+                                <TextBlock TextAlignment="Center" Text="{Binding}"/>
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                         
@@ -107,7 +107,6 @@
             </ListBox>
             <Grid Grid.Row="2">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>

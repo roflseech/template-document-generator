@@ -32,21 +32,21 @@ namespace TemplateDocumentGenerator.ViewModels
         }
         private Dictionary<string, ResourceDictionary> localizations;
 
-        public ObservableCollection<Models.Variable> Languages { get; set; }
-        private Models.Variable selectedLanguage;
+        public ObservableCollection<string> Languages { get; set; }
+        private string selectedLanguage;
         private string previousLanguage;
 
-        public Models.Variable SelectedLanguage
+        public string SelectedLanguage
         {
             get { return selectedLanguage; }
             set
             {
                 if(selectedLanguage != null)
                 {
-                    previousLanguage = selectedLanguage.Value;
+                    previousLanguage = selectedLanguage;
                 }
                 selectedLanguage = value;
-                Settings.Default.Language = selectedLanguage.Value;
+                Settings.Default.Language = selectedLanguage;
                 Settings.Default.Save();
                 OnPropertyChanged("SelectedLanguage");
             }
@@ -111,22 +111,13 @@ namespace TemplateDocumentGenerator.ViewModels
             NamePattern = "<tempname>";
             
 
-            Languages = new ObservableCollection<Models.Variable>();
+            Languages = new ObservableCollection<string>();
             localizations = new Dictionary<string, ResourceDictionary>();
-            AddLanguage("en", "English", "Properties/Localization_english.xaml");
-            AddLanguage("ru", "Русский", "Properties/Localization_russian.xaml");
-            Application.Current.Resources.MergedDictionaries.Add(
-                localizations[Settings.Default.Language]);
-            foreach(var a in Languages)
-            {
-                if(a.Value == Settings.Default.Language)
-                {
-                    SelectedLanguage = a;
-                    break;
-                }
-            }
-
+            AddLanguage("English", "Properties/Localization_english.xaml");
+            AddLanguage("Русский", "Properties/Localization_russian.xaml");
             PropertyChanged += LanguageChanging;
+
+            SelectedLanguage = (string)Settings.Default.Language;
 
             if(Settings.Default.OutPath == "")
             {
@@ -137,11 +128,11 @@ namespace TemplateDocumentGenerator.ViewModels
                 OutPath = Settings.Default.OutPath;
             }
         }
-        private void AddLanguage(string tag, string name, string uri)
+        private void AddLanguage(string name, string uri)
         {
-            Languages.Add(new Models.Variable(name, tag));
-            localizations[tag] = new ResourceDictionary();
-            localizations[tag].Source = new Uri(uri, UriKind.Relative);
+            Languages.Add(name);
+            localizations[name] = new ResourceDictionary();
+            localizations[name].Source = new Uri(uri, UriKind.Relative);
         }
         private void LanguageChanging(object sender, PropertyChangedEventArgs e)
         {
@@ -151,7 +142,7 @@ namespace TemplateDocumentGenerator.ViewModels
                 {
                     Application.Current.Resources.MergedDictionaries.Remove(localizations[previousLanguage]);
                 }
-                Application.Current.Resources.MergedDictionaries.Add(localizations[selectedLanguage.Value]);
+                Application.Current.Resources.MergedDictionaries.Add(localizations[selectedLanguage]);
                 StatusText = "";
             }
         }
@@ -202,7 +193,7 @@ namespace TemplateDocumentGenerator.ViewModels
                 catch(System.IO.IOException exception)
                 {
                     changedTempalte.IsActive = false;
-                    var currentLocResources = localizations[selectedLanguage.Value];
+                    var currentLocResources = localizations[selectedLanguage];
                     StatusText = String.Format(
                         (string)currentLocResources["file_open_error"],
                         changedTempalte.ShortFileName);
@@ -210,7 +201,7 @@ namespace TemplateDocumentGenerator.ViewModels
                 catch (System.IO.FileFormatException exception)
                 {
                     changedTempalte.IsActive = false;
-                    var currentLocResources = localizations[selectedLanguage.Value];
+                    var currentLocResources = localizations[selectedLanguage];
                     StatusText = String.Format(
                         (string)currentLocResources["wrong_file_format"],
                         changedTempalte.ShortFileName);
@@ -218,7 +209,7 @@ namespace TemplateDocumentGenerator.ViewModels
                 catch (Models.DocumentLoader.IncorrectTemplateError exception)
                 {
                     changedTempalte.IsActive = false;
-                    var currentLocResources = localizations[selectedLanguage.Value];
+                    var currentLocResources = localizations[selectedLanguage];
                     StatusText = String.Format(
                         (string)currentLocResources["no_variables_detected"],
                         changedTempalte.ShortFileName);
@@ -309,7 +300,7 @@ namespace TemplateDocumentGenerator.ViewModels
         }
         private bool VerifyInput()
         {
-            var currentLocResources = localizations[selectedLanguage.Value];
+            var currentLocResources = localizations[selectedLanguage];
 
             if (!VerifyOutputDirectory())
             {
@@ -340,7 +331,7 @@ namespace TemplateDocumentGenerator.ViewModels
         }
         private string GenerationStatusReport(int errorsCount)
         {
-            var currentLocResources = localizations[selectedLanguage.Value];
+            var currentLocResources = localizations[selectedLanguage];
             int activeTemplatesCount = ActiveTemplatesCount();
             string result = "";
             if (errorsCount == 0)
