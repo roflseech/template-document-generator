@@ -48,12 +48,12 @@ After processing, every tag will be replaced with given variable. "tempname" tag
 ## 7. Press Generate
 Result will be generated in selected output folder
 
-Document 1
-
 ![](https://github.com/roflseech/template-document-generator/blob/main/readme/11.jpg?raw=true)
 
-Document 2
+Document 1
 
 ![](https://github.com/roflseech/template-document-generator/blob/main/readme/12.jpg?raw=true)
+
+Document 2
 
 ![](https://github.com/roflseech/template-document-generator/blob/main/readme/13.jpg?raw=true)
