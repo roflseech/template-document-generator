@@ -6,7 +6,11 @@ Generates multiple documents, replacing specified tag words in given templates.
 ## 1. Create template documents
 Create .doc or .docx documents and type tags, which are going to be replaced, in triangle parenthesis inside them.
 
+template_1.docx
+
 ![](https://github.com/roflseech/template-document-generator/blob/main/readme/1.jpg?raw=true)
+
+template_2.docx
 
 ![](https://github.com/roflseech/template-document-generator/blob/main/readme/2.jpg?raw=true)
 
