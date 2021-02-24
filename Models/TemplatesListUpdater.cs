@@ -51,6 +51,8 @@ namespace TemplateDocumentGenerator.Models
             templatesFolderWatcher = new FileSystemWatcher(Directory.GetCurrentDirectory());
             templatesFolderWatcher.EnableRaisingEvents = true;
             templatesFolderWatcher.Renamed += OnMainFolderRenamed;
+            templatesFolderWatcher.Created += OnMainFolderCreated;
+            templatesFolderWatcher.Deleted += OnMainFolderDeleted;
         }
         /// <summary>
         /// Force update state of the folder.
@@ -122,6 +124,14 @@ namespace TemplateDocumentGenerator.Models
                 templatesWatcher.Path = e.FullPath;
                 templatesWatcher.EnableRaisingEvents = true;
                 ScanFolder();
+            }
+        }
+        private void OnMainFolderDeleted(object source, FileSystemEventArgs e)
+        {
+            if (e.Name == "Templates")
+            {
+                templatesList.Clear();
+                templatesWatcher.EnableRaisingEvents = false;
             }
         }
         private void OnMainFolderCreated(object source, FileSystemEventArgs e)
