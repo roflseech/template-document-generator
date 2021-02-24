@@ -27,7 +27,7 @@ Or directly copy needed templates to Templates folder
 
 After that all detected templates will appear in the list above
 
-![](https://github.com/roflseech/template-document-generator/blob/main/readme/5.jpg | width=500)
+<img src="https://github.com/roflseech/template-document-generator/blob/main/readme/5.jpg" width="50%">
 
 ## 3. Select needed templates
 ![](https://github.com/roflseech/template-document-generator/blob/main/readme/6.jpg)
