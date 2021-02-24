@@ -24,9 +24,10 @@ You can do it by pressing Add Template button
 ![](https://github.com/roflseech/template-document-generator/blob/main/readme/3.jpg)
 
 Or directly copy needed templates to Templates folder
+
 After that all detected templates will appear in the list above
 
-![](https://github.com/roflseech/template-document-generator/blob/main/readme/5.jpg)
+![](https://github.com/roflseech/template-document-generator/blob/main/readme/5.jpg | width=500)
 
 ## 3. Select needed templates
 ![](https://github.com/roflseech/template-document-generator/blob/main/readme/6.jpg)
