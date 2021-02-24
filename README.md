@@ -8,6 +8,8 @@ Generates multiple documents, replacing specified tag words in given templates.
 ## 1. Create template documents
 Create .doc or .docx documents and type tags, which are going to be replaced, in triangle parenthesis inside them.
 
+<img src="https://github.com/roflseech/template-document-generator/blob/main/readme/4.jpg">
+
 **template_1.docx**
 
 <img src="https://github.com/roflseech/template-document-generator/blob/main/readme/1.jpg">
@@ -15,8 +17,6 @@ Create .doc or .docx documents and type tags, which are going to be replaced, in
 **template_2.docx**
 
 <img src="https://github.com/roflseech/template-document-generator/blob/main/readme/2.jpg">
-
-<img src="https://github.com/roflseech/template-document-generator/blob/main/readme/4.jpg">
 
 ## 2. Add them to program's Templates folder
 You can do it by pressing Add Template button
