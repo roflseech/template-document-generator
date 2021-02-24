@@ -1,6 +1,8 @@
 # Template document generator
 Generates multiple documents, replacing specified tag words in given templates.
 
+[Download](https://github.com/roflseech/template-document-generator/blob/main/PublicReleases/TemplateDocumentGenerator.zip?raw=true)
+
 # How to use
 
 ## 1. Create template documents
