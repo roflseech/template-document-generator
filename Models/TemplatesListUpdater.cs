@@ -8,6 +8,10 @@ using System.Threading.Tasks;
 
 namespace TemplateDocumentGenerator.Models
 {
+    /// <summary>
+    /// Watches given folder for changes and updates templates list based on detected files.
+    /// Also watches folder which contains given folder to react on it's deleting or renaming
+    /// </summary>
     class TemplatesListUpdater : IDisposable
     {
         public delegate bool FileCheckFuncDelegate(string s);
@@ -16,7 +20,12 @@ namespace TemplateDocumentGenerator.Models
         private FileSystemWatcher templatesWatcher;
         private ObservableCollection<DocumentTemplate> templatesList;
         private FileCheckFuncDelegate fileCheckFunc;
-
+        /// <summary>
+        /// Initializes FileSystemWatchers and events callbacks
+        /// </summary>
+        /// <param name="folder"></param>
+        /// <param name="templatesList"></param>
+        /// <param name="fileCheckFunc">Function which checks is file appropriate or not</param>
         public TemplatesListUpdater(string folder, 
             ObservableCollection<DocumentTemplate> templatesList,
             FileCheckFuncDelegate fileCheckFunc)
@@ -43,9 +52,13 @@ namespace TemplateDocumentGenerator.Models
             templatesFolderWatcher.EnableRaisingEvents = true;
             templatesFolderWatcher.Renamed += OnMainFolderRenamed;
         }
+        /// <summary>
+        /// Force update state of the folder.
+        /// </summary>
         public void ScanFolder()
         {
             templatesList.Clear();
+            //if templates watcher was disabled, then given folder doesn't exist
             if (!templatesWatcher.EnableRaisingEvents) return;
             string[] files = Directory.GetFiles(templatesWatcher.Path);
             
@@ -58,8 +71,6 @@ namespace TemplateDocumentGenerator.Models
                         FileName = s,
                         IsActive = false
                     };
-                    //check variables count at startup?
-                    //template.ReloadVaraibles();
 
                     templatesList.Add(template);
                 }

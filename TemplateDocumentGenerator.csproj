@@ -71,7 +71,6 @@
     <Compile Include="Models\DocumentGenerator.cs" />
     <Compile Include="Models\DocumentLoader.cs" />
     <Compile Include="Models\DocumentTemplate.cs" />
-    <Compile Include="Models\Localization.cs" />
     <Compile Include="Models\TemplatesListUpdater.cs" />
     <Compile Include="Models\Variable.cs" />
     <Compile Include="Test.xaml.cs">

@@ -11,6 +11,9 @@ using System.Threading.Tasks;
 
 namespace TemplateDocumentGenerator.Models
 {
+    /// <summary>
+    /// Contains information about template
+    /// </summary>
     class DocumentTemplate : INotifyPropertyChanged
     {
         private string fileName;
@@ -49,14 +52,6 @@ namespace TemplateDocumentGenerator.Models
                 OnPropertyChanged("ShortFileName");
             }
         }
-        public void ReloadVaraibles()
-        {
-            using (var dl = new DocumentLoader(fileName))
-            {
-                Variables = dl.FindVariables();
-            }
-        }
-
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string prop = "")
         {

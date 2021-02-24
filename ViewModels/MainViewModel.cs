@@ -20,7 +20,24 @@ namespace TemplateDocumentGenerator.ViewModels
 {
     class MainViewModel : INotifyPropertyChanged
     {
+        private Dictionary<string, ResourceDictionary> localizations;
+        private Models.TemplatesListUpdater templatesListUpdater;
+
         private string statusText;
+        private string namePattern;
+        private string outPath;
+
+        private string selectedLanguage;
+        private string previousLanguage;
+
+        private Models.DocumentTemplate selectedTemplate;
+
+        private object templatesListLock;
+
+
+        public ObservableCollection<string> Languages { get; set; }
+        public ObservableCollection<Models.Variable> VariablesList { get; set; }
+        public ObservableCollection<Models.DocumentTemplate> TemplatesList { get; set; }
         public string StatusText
         {
             get { return statusText; }
@@ -30,12 +47,6 @@ namespace TemplateDocumentGenerator.ViewModels
                 OnPropertyChanged("StatusText");
             }
         }
-        private Dictionary<string, ResourceDictionary> localizations;
-
-        public ObservableCollection<string> Languages { get; set; }
-        private string selectedLanguage;
-        private string previousLanguage;
-
         public string SelectedLanguage
         {
             get { return selectedLanguage; }
@@ -51,8 +62,6 @@ namespace TemplateDocumentGenerator.ViewModels
                 OnPropertyChanged("SelectedLanguage");
             }
         }
-        public ObservableCollection<Models.DocumentTemplate> TemplatesList { get; set; }
-        private Models.DocumentTemplate selectedTemplate;
         public Models.DocumentTemplate SelectedTemplate
         {
             get { return selectedTemplate; }
@@ -62,12 +71,6 @@ namespace TemplateDocumentGenerator.ViewModels
                 OnPropertyChanged("SelectedTemplate");
             }
         }
-        private object templatesListLock;
-
-        public ObservableCollection<Models.Variable> VariablesList { get; set; }
-        private string namePattern;
-        private string outPath;
-
         public string NamePattern 
         {
             get { return namePattern; }
@@ -88,16 +91,11 @@ namespace TemplateDocumentGenerator.ViewModels
                 OnPropertyChanged("OutPath");
             }
         }
-
-        private Models.TemplatesListUpdater templatesListUpdater;
-        
-
         private bool FileCheck(string s)
         {
             return Path.GetExtension(s).CompareTo(".docx") == 0 ||
                 Path.GetExtension(s).CompareTo(".doc") == 0;
         }
-
         public MainViewModel()
         {
             TemplatesList = new ObservableCollection<Models.DocumentTemplate>();
@@ -110,7 +108,6 @@ namespace TemplateDocumentGenerator.ViewModels
             templatesListUpdater.ScanFolder();
             NamePattern = "<tempname>";
             
-
             Languages = new ObservableCollection<string>();
             localizations = new Dictionary<string, ResourceDictionary>();
             AddLanguage("English", "Properties/Localization_english.xaml");
@@ -146,6 +143,9 @@ namespace TemplateDocumentGenerator.ViewModels
                 StatusText = "";
             }
         }
+        /// <summary>
+        /// Adds listener to IsActive property changes.
+        /// </summary>
         private void AddChangeNotifications(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (e.OldItems != null)
@@ -159,6 +159,9 @@ namespace TemplateDocumentGenerator.ViewModels
                     item.PropertyChanged += TemplatePropertyChanged;
             }
         }
+        /// <summary>
+        /// Checks file acessibility and reloads variables whenever template is set as active.
+        /// </summary>
         private void TemplatePropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName != "IsActive") return;
@@ -168,7 +171,11 @@ namespace TemplateDocumentGenerator.ViewModels
             {
                 try
                 {
-                    changedTempalte.ReloadVaraibles();
+                    using(var dl = new Models.DocumentLoader(changedTempalte.FileName))
+                    {
+                        changedTempalte.Variables = dl.FindVariables();
+                    }
+
                     var changedTemplateVariables = changedTempalte.Variables;
                     foreach (var variable in changedTemplateVariables)
                     {
@@ -214,8 +221,6 @@ namespace TemplateDocumentGenerator.ViewModels
                         (string)currentLocResources["no_variables_detected"],
                         changedTempalte.ShortFileName);
                 }
-
-                
             }
             else
             {
@@ -240,7 +245,6 @@ namespace TemplateDocumentGenerator.ViewModels
                 }
             }
         }
-
         public ICommand ChooseOutPath
         {
             get
@@ -393,6 +397,10 @@ namespace TemplateDocumentGenerator.ViewModels
                     openFileDialog.Filter = "Documents|*.docx;*.doc";
                     if (openFileDialog.ShowDialog() == true)
                     {
+                        if(!Directory.Exists("Templates"))
+                        {
+                            Directory.CreateDirectory("Templates");
+                        }
                         File.Copy(openFileDialog.FileName, "Templates\\" + Path.GetFileName(openFileDialog.FileName));
                     }
                     StatusText = "";

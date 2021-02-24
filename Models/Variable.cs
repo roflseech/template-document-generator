@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace TemplateDocumentGenerator.Models
 {
+    /// <summary>
+    /// Variable class which invokes notification whenever it's properties changed
+    /// </summary>
     class Variable : INotifyPropertyChanged
     {
         private string name;
