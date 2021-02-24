@@ -10,18 +10,18 @@ Create .doc or .docx documents and type tags, which are going to be replaced, in
 
 **template_1.docx**
 
-![](https://github.com/roflseech/template-document-generator/blob/main/readme/1.jpg?)
+<img src="https://github.com/roflseech/template-document-generator/blob/main/readme/1.jpg" width="50%">
 
 **template_2.docx**
 
-![](https://github.com/roflseech/template-document-generator/blob/main/readme/2.jpg)
+<img src="https://github.com/roflseech/template-document-generator/blob/main/readme/2.jpg" width="50%">
 
-![](https://github.com/roflseech/template-document-generator/blob/main/readme/4.jpg)
+<img src="https://github.com/roflseech/template-document-generator/blob/main/readme/4.jpg" width="50%">
 
 ## 2. Add them to program's Templates folder
 You can do it by pressing Add Template button
 
-![](https://github.com/roflseech/template-document-generator/blob/main/readme/3.jpg)
+<img src="https://github.com/roflseech/template-document-generator/blob/main/readme/3.jpg" width="50%">
 
 Or directly copy needed templates to Templates folder
 
@@ -30,20 +30,24 @@ After that all detected templates will appear in the list above
 <img src="https://github.com/roflseech/template-document-generator/blob/main/readme/5.jpg" width="50%">
 
 ## 3. Select needed templates
-![](https://github.com/roflseech/template-document-generator/blob/main/readme/6.jpg)
+
+<img src="https://github.com/roflseech/template-document-generator/blob/main/readme/6.jpg" width="50%">
 
 Detected variables will appear in the list to the left
 
-![](https://github.com/roflseech/template-document-generator/blob/main/readme/7.jpg)
+<img src="https://github.com/roflseech/template-document-generator/blob/main/readme/7.jpg" width="50%">
 
 ## 4. Fill in the variables
-![](https://github.com/roflseech/template-document-generator/blob/main/readme/8.jpg)
+
+<img src="https://github.com/roflseech/template-document-generator/blob/main/readme/8.jpg" width="50%">
 
 ## 5. Select output path
-![](https://github.com/roflseech/template-document-generator/blob/main/readme/9.jpg)
+
+<img src="https://github.com/roflseech/template-document-generator/blob/main/readme/9.jpg" width="50%">
 
 ## 6. Fill in naming template
-![](https://github.com/roflseech/template-document-generator/blob/main/readme/10.jpg)
+
+<img src="https://github.com/roflseech/template-document-generator/blob/main/readme/10.jpg" width="50%">
 
 New document will be generated based on each selected document template, and it's name will be formed based on naming template.
 After processing, every tag will be replaced with given variable. "tempname" tag will be replaced with the name of the template.
@@ -51,12 +55,12 @@ After processing, every tag will be replaced with given variable. "tempname" tag
 ## 7. Press Generate
 Result will be generated in selected output folder
 
-![](https://github.com/roflseech/template-document-generator/blob/main/readme/11.jpg)
+<img src="https://github.com/roflseech/template-document-generator/blob/main/readme/11.jpg" width="50%">
 
 **Document 1**
 
-![](https://github.com/roflseech/template-document-generator/blob/main/readme/12.jpg)
+<img src="https://github.com/roflseech/template-document-generator/blob/main/readme/12.jpg" width="50%">
 
 **Document 2**
 
-![](https://github.com/roflseech/template-document-generator/blob/main/readme/13.jpg)
+<img src="https://github.com/roflseech/template-document-generator/blob/main/readme/13.jpg" width="50%">
